@@ -62,4 +62,23 @@ module.exports = cds.service.impl(function () {
 
     return result.ProductName;
   });
+
+  //bound function
+  this.on(
+    "stockValue",
+    "Products",
+    async ({ params: [{ ProductID: productId }] }) => {
+      const db = await cds.connect.to("db");
+      const { Products } = db.entities("northwind");
+
+      //    const productId = req.params[0].ProductID;
+
+      const result = await SELECT.one
+        .from(Products)
+        .columns("UnitPrice * UnitsInStock as stockVal")
+        .where({ ProductID: productId });
+
+      return result.stockVal;
+    },
+  );
 });

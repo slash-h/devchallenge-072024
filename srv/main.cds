@@ -4,7 +4,10 @@ using {northwind} from '../db/schema';
 service northbreeze {
   //Task 7 - northbreeze service
   @cds.redirection.target: true
-  entity Products      as projection on northwind.Products;
+  entity Products      as projection on northwind.Products
+    actions {
+      function stockValue() returns Integer
+    };
 
   entity Suppliers     as projection on northwind.Suppliers;
   entity Categories    as projection on northwind.Categories;
